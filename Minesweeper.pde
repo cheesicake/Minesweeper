@@ -53,7 +53,7 @@ public void displayLosingMessage()
         buttons[10][j].setLabel(message.charAt(j) + "");
         buttons[10][j].draw();
     }
-    noLoop();
+    //noLoop();
 }
 public void displayWinningMessage()
 {
