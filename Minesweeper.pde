@@ -20,27 +20,29 @@ void setup ()
         buttons[i][j] = new MSButton(i,j);
       }
     }
-    for (int k=0; k<NUM_BOMBS; k++){
+    for (int k=0; k<NUM_BOMBS; k++)
       setMines(); 
-    }
 }
 public void setMines()
 {
     //your code
     int r = (int)(random(NUM_ROWS));
     int c = (int)(random(NUM_COLS));
-    if (!(mines.contains(buttons[r][c]))) mines.add(buttons[r][c]);
+    if (!mines.contains(buttons[r][c])) mines.add(buttons[r][c]);
 }
 
 public void draw ()
 {
     background( 0 );
-    if(isWon() == true)
-        displayWinningMessage();
+    if (isWon() == true) 
+      displayWinningMessage();
 }
 public boolean isWon()
 {
     //your code here
+    //for (MSButton bomb: mines)
+    //  if (!mines.contains(bomb) && !bomb.clicked) return false;
+    //return true;
     return false;
 }
 public void displayLosingMessage()
@@ -51,6 +53,7 @@ public void displayLosingMessage()
         buttons[10][j].setLabel(message.charAt(j) + "");
         buttons[10][j].draw();
     }
+    noLoop();
 }
 public void displayWinningMessage()
 {
@@ -101,20 +104,25 @@ public class MSButton
     // called by manager
     public void mousePressed () 
     {
-        clicked = true;
-        //your code here
-        if (mouseButton==RIGHT){
+      clicked = true;  
+      if (mouseButton == RIGHT){
           flagged = !flagged;
           if (!flagged) clicked = false;
-        } else if (mines.contains(this)){
+        }
+        else if (mines.contains(this)){
           clicked = true;
+          for (MSButton bomb: mines)
+              if (mines.contains(bomb)) bomb.clicked=true;
           displayLosingMessage();
-        } else if (countMines(myRow, myCol)>0){
+        } 
+        else if (countMines(myRow, myCol) > 0){
+          clicked = true;
           setLabel("" + countMines(myRow, myCol));
         } else {
-          for (int i=myRow-1; i<=myCol+1; i++){
-            for (int j=myCol-1; j<=myCol+1; j++){
-              if (isValid(i,j) && !buttons[i][j].clicked){
+          clicked = true;
+          for(int i = myRow-1; i<=myRow+1; i++){
+            for(int j = myCol-1; j<=myCol+1; j++){
+              if(isValid(i, j) && !buttons[i][j].clicked){
                 buttons[i][j].mousePressed();
               }
             }
@@ -124,13 +132,13 @@ public class MSButton
     public void draw () 
     {    
         if (flagged)
-            fill(100);
+            fill(0);
          else if( clicked && mines.contains(this) ) 
              fill(0,255,0);
         else if(clicked)
             fill( 255 );
         else 
-            fill( 0 );
+            fill( 150 );
 
         rect(x, y, width, height);
         fill(0);
