@@ -52,8 +52,9 @@ public boolean isWon()
 }
 public void displayLosingMessage()
 {
-    //textSize(128);
-    text("You Lose", 40, 120); 
+    textSize(15);
+    buttons[NUM_ROWS/2][NUM_COLS/2].myLabel = "LOST";
+    noLoop();
 }
 public void displayWinningMessage()
 {
@@ -105,13 +106,14 @@ public class MSButton
     public void mousePressed () 
     {
         clicked = true;
-        if(mouseButton == RIGHT){
+        if(mouseButton == RIGHT&&!buttons[myRow][myCol].clicked){
           flagged = !flagged;
         }
         if(flagged == true){
           clicked = false;
-        }else if(mines.contains(buttons[myRow][myCol])){
+        }else if(mines.contains(this)){
           displayLosingMessage();
+          
         }else if(countMines(myRow, myCol)>0){
           myLabel = countMines(myRow, myCol)+"";
         }else{
